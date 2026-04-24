@@ -1,0 +1,15 @@
+services:
+  mysql:
+    image: "mysql:8.0"
+    container_name: back-end-mysql-1
+    restart: always
+    env_file:
+      - .env.docker
+    ports:
+      - "32773:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

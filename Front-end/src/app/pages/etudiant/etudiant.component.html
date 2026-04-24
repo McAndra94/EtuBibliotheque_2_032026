@@ -1,0 +1,50 @@
+<h2>Student Management</h2>
+
+<!-- FORM -->
+<form (ngSubmit)="submit()">
+  <h3>{{ isEdit ? "Edit Student" : "Add Student" }}</h3>
+
+  <label>First Name</label>
+  <input [(ngModel)]="form.firstName" name="firstName" required />
+
+  <label>Last Name</label>
+  <input [(ngModel)]="form.lastName" name="lastName" required />
+
+  <label>Login</label>
+  <input [(ngModel)]="form.login" name="login" required />
+
+  <button type="submit">
+    {{ isEdit ? "Update" : "Add" }}
+  </button>
+
+  <button type="button" (click)="resetForm()">Cancel</button>
+</form>
+
+<hr />
+
+<!-- TABLE -->
+<h3>Student List</h3>
+
+<table border="1" width="80%">
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Login</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let etudiant of etudiants">
+      <td>{{ etudiant.firstName }}</td>
+      <td>{{ etudiant.lastName }}</td>
+      <td>{{ etudiant.login }}</td>
+
+      <td>
+        <button (click)="edit(etudiant)">Edit</button>
+        <button (click)="delete(etudiant.id!)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

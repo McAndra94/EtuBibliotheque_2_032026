@@ -1,0 +1,30 @@
+<div>
+  <h2>Login Form</h2>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div>
+      <input type="text" formControlName="login" placeholder="Login" />
+      <div *ngIf="form['login'].invalid && form['login'].touched">
+        Login is required
+      </div>
+    </div>
+    <br />
+    <div>
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+      />
+      <div *ngIf="form['password'].invalid && form['password'].touched">
+        Password is required
+      </div>
+    </div>
+    <br />
+    <button type="submit">Login</button>
+  </form>
+
+  <p *ngIf="loading">Loading...</p>
+  <!-- Displays value of error (the reason) -->
+  <p *ngIf="error">{{ error }}</p>
+  <p *ngIf="success">Success!</p>
+</div>

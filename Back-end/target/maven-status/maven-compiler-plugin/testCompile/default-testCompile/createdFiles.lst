@@ -1,0 +1,6 @@
+com/openclassrooms/etudiant/controller/EtudiantControllerTest.class
+com/openclassrooms/etudiant/controller/EtudiantControllerIT.class
+com/openclassrooms/etudiant/controller/UserControllerIT.class
+com/openclassrooms/etudiant/service/UserServiceTest.class
+com/openclassrooms/etudiant/service/EtudiantServiceTest.class
+com/openclassrooms/etudiant/controller/UserControllerTest.class

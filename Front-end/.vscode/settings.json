@@ -1,0 +1,17 @@
+{
+  "editor.formatOnSave": true,
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.enablePromptUseWorkspaceTsdk": true,
+  "files.exclude": {
+    "node_modules/.angular": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.formatOnSave": false
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.formatOnSave": false
+  },
+  "prettier.requireConfig": true
+}
