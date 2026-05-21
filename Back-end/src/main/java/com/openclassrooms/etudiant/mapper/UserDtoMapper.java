@@ -7,11 +7,18 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.ERROR)
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserDtoMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "created_at", ignore = true)
     @Mapping(target = "updated_at", ignore = true)
+
     @Mapping(target = "authorities", ignore = true)
+    @Mapping(target = "username", ignore = true)
+    @Mapping(target = "accountNonExpired", ignore = true)
+    @Mapping(target = "accountNonLocked", ignore = true)
+    @Mapping(target = "credentialsNonExpired", ignore = true)
+    @Mapping(target = "enabled", ignore = true)
+    
     User toEntity(RegisterDTO registerDTO);
 }
