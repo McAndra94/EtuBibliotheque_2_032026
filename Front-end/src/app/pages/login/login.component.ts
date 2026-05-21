@@ -32,29 +32,21 @@ export class LoginComponent {
       password: ['', Validators.required],
     });
   }
-  ngOnInit() {
-    console.log('Login component loaded');
-  }
+  ngOnInit() {}
   get form() {
     return this.loginForm.controls;
   }
   onSubmit() {
     if (this.loginForm.invalid) return;
 
-    console.log('SUBMIT CLICKED');
-
     this.loading = true;
     this.error = null;
 
-    //const { login, password } = this.loginForm.value;
     const login = this.loginForm.get('login')?.value;
     const password = this.loginForm.get('password')?.value;
-    console.log('Checking:', { login, password });
     // Data in backend
     this.authService.login(login, password).subscribe({
       next: (token: string) => {
-        console.log('SUCCESS TOKEN:', token);
-
         this.loading = false;
         this.success = true;
 
@@ -63,7 +55,6 @@ export class LoginComponent {
       },
       error: (err) => {
         this.loading = false;
-        console.log(err);
         this.error = 'Login failed';
       },
     });
