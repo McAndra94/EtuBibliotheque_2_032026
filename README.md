@@ -15,11 +15,11 @@ EtuBibliotheque
 ![Frontend Coverage](Front-end/results/jest-coverage.png)
 
 Tests included :
-app.component.spec.ts
-auth.guard.spec.ts
-auth.service.spec.ts
-etudiant.component.spec.ts
-etudiant.service.spec.ts
-login.component.spec.ts
-register.component.spec.ts
-user.service.spec.ts
+- app.component.spec.ts
+- auth.guard.spec.ts
+- auth.service.spec.ts
+- etudiant.component.spec.ts
+- etudiant.service.spec.ts
+- login.component.spec.ts
+- register.component.spec.ts
+- user.service.spec.ts
