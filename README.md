@@ -36,4 +36,4 @@ Tests included :
    Testing Tool : Cypress
    Coverage Tool : Istanbul & Babel tracking (via `ngx-build-plus`)
 
-   ![Cypress E2E Coverage](Front-end/cypress-coverage.png)
+![Cypress E2E Coverage](Front-end/cypress-coverage.png)
