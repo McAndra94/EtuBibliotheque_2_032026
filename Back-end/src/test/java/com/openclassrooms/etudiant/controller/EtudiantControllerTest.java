@@ -5,6 +5,7 @@ import com.openclassrooms.etudiant.service.EtudiantService;
 import com.openclassrooms.etudiant.service.JwtService;
 import com.openclassrooms.etudiant.entities.Etudiant;
 import com.openclassrooms.etudiant.exception.GlobalExceptionHandler;
+import com.openclassrooms.etudiant.mapper.UserDtoMapper;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -26,95 +27,96 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(GlobalExceptionHandler.class)
 class EtudiantControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+        @Autowired
+        private MockMvc mockMvc;
 
-    @MockBean
-    private EtudiantService service;
+        @MockBean
+        private UserDtoMapper userDtoMapper;
 
-    @MockBean
-    private JwtService jwtService;
+        @MockBean
+        private EtudiantService service;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+        @MockBean
+        private JwtService jwtService;
 
-    @Test
-    void getAll_shouldReturnList() throws Exception {
-        Mockito.when(service.findAll()).thenReturn(
-                Arrays.asList(
-                        new Etudiant(1L, "John", "Doe", "login"),
-                        new Etudiant(2L, "Tony", "Debo", "TonyD")
-                )
-        );
+        @Autowired
+        private ObjectMapper objectMapper;
 
-        mockMvc.perform(get("/api/etudiants"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2));
-    }
+        @Test
+        void getAll_shouldReturnList() throws Exception {
+                Mockito.when(service.findAll()).thenReturn(
+                                Arrays.asList(
+                                                new Etudiant(1L, "John", "Doe", "login"),
+                                                new Etudiant(2L, "Tony", "Debo", "TonyD")));
 
-    @Test
-    void getOne_shouldReturnEtudiant() throws Exception {
-        Mockito.when(service.findById(1L))
-                .thenReturn(new Etudiant(1L, "John", "Doe", "login"));
+                mockMvc.perform(get("/api/etudiants"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.length()").value(2));
+        }
 
-        mockMvc.perform(get("/api/etudiants/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.firstName").value("John"));
-    }
+        @Test
+        void getOne_shouldReturnEtudiant() throws Exception {
+                Mockito.when(service.findById(1L))
+                                .thenReturn(new Etudiant(1L, "John", "Doe", "login"));
 
-    @Test
-    void getOne_shouldReturn400_whenNotFound() throws Exception {
-        Mockito.when(service.findById(99L))
-                .thenThrow(new RuntimeException("Etudiant not found"));
+                mockMvc.perform(get("/api/etudiants/1"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.firstName").value("John"));
+        }
 
-        mockMvc.perform(get("/api/etudiants/99"))
-                .andExpect(status().isBadRequest());
-    }
+        @Test
+        void getOne_shouldReturn400_whenNotFound() throws Exception {
+                Mockito.when(service.findById(99L))
+                                .thenThrow(new RuntimeException("Etudiant not found"));
 
-    @Test
-    void create_shouldReturnEtudiant() throws Exception {
-        Etudiant input = new Etudiant(null, "John", "Doe", "login");
-        Etudiant saved = new Etudiant(1L, "John", "Doe", "login");
+                mockMvc.perform(get("/api/etudiants/99"))
+                                .andExpect(status().isBadRequest());
+        }
 
-        Mockito.when(service.create(Mockito.any())).thenReturn(saved);
+        @Test
+        void create_shouldReturnEtudiant() throws Exception {
+                Etudiant input = new Etudiant(null, "John", "Doe", "login");
+                Etudiant saved = new Etudiant(1L, "John", "Doe", "login");
 
-        mockMvc.perform(post("/api/etudiants")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L));
-    }
+                Mockito.when(service.create(Mockito.any())).thenReturn(saved);
 
-    @Test
-    void update_shouldReturnUpdatedEtudiant() throws Exception {
-        Etudiant updated = new Etudiant(1L, "New", "Name", "newLogin");
+                mockMvc.perform(post("/api/etudiants")
+                                .contentType("application/json")
+                                .content(objectMapper.writeValueAsString(input)))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.id").value(1L));
+        }
 
-        Mockito.when(service.update(Mockito.eq(1L), Mockito.any()))
-                .thenReturn(updated);
+        @Test
+        void update_shouldReturnUpdatedEtudiant() throws Exception {
+                Etudiant updated = new Etudiant(1L, "New", "Name", "newLogin");
 
-        mockMvc.perform(put("/api/etudiants/1")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(updated)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.firstName").value("New"));
-    }
+                Mockito.when(service.update(Mockito.eq(1L), Mockito.any()))
+                                .thenReturn(updated);
 
-    @Test
-    void update_shouldReturn400_whenNotFound() throws Exception {
-        Mockito.when(service.update(Mockito.eq(99L), Mockito.any()))
-                .thenThrow(new RuntimeException("Etudiant not found"));
+                mockMvc.perform(put("/api/etudiants/1")
+                                .contentType("application/json")
+                                .content(objectMapper.writeValueAsString(updated)))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.firstName").value("New"));
+        }
 
-        mockMvc.perform(put("/api/etudiants/99")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(new Etudiant())))
-                .andExpect(status().isBadRequest());
-    }
+        @Test
+        void update_shouldReturn400_whenNotFound() throws Exception {
+                Mockito.when(service.update(Mockito.eq(99L), Mockito.any()))
+                                .thenThrow(new RuntimeException("Etudiant not found"));
 
-    @Test
-    void delete_shouldReturn200() throws Exception {
-        Mockito.doNothing().when(service).delete(1L);
+                mockMvc.perform(put("/api/etudiants/99")
+                                .contentType("application/json")
+                                .content(objectMapper.writeValueAsString(new Etudiant())))
+                                .andExpect(status().isBadRequest());
+        }
 
-        mockMvc.perform(delete("/api/etudiants/1"))
-                .andExpect(status().isOk());
-    }
+        @Test
+        void delete_shouldReturn204() throws Exception {
+                Mockito.doNothing().when(service).delete(1L);
+
+                mockMvc.perform(delete("/api/etudiants/1"))
+                                .andExpect(status().isNoContent());
+        }
 }

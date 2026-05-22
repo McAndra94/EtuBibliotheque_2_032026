@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class EtudiantBackendApplication {
 
     public static void main(String[] args) {
-        System.out.println("Working directory = " + System.getProperty("user.dir"));
         SpringApplication.run(EtudiantBackendApplication.class, args);
     }
 

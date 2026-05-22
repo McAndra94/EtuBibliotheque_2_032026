@@ -30,11 +30,11 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    //@RequestBody was missing, without it Spring has no idea that the JSON (data) should be mapped into the DTO.
+    // @RequestBody was missing, without it Spring had no idea that the JSON (data)
+    // should be mapped into the DTO.
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequestDTO) {
         String jwtToken = userService.login(loginRequestDTO.getLogin(), loginRequestDTO.getPassword());
         return ResponseEntity.ok(jwtToken);
     }
-
 
 }

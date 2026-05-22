@@ -51,8 +51,7 @@ public class JwtService {
                     && username.equals(userDetails.getUsername())
                     && !isTokenExpired(token);
         } catch (JwtException | IllegalArgumentException ex) {
-        log.debug("Token validation failed: {}", ex.getMessage());
-        return false;
+            return false;
         }
     }
 

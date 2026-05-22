@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.etudiant.entities.Etudiant;
 import com.openclassrooms.etudiant.repository.EtudiantRepository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -16,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@WithMockUser(username = "testUser", roles = { "USER" })
 class EtudiantControllerIT {
 
     @Autowired
@@ -27,13 +30,21 @@ class EtudiantControllerIT {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @MockBean
+    private com.openclassrooms.etudiant.service.JwtService jwtService;
+
+    @BeforeEach
+    void cleanUp() {
+        repository.deleteAll();
+    }
+
     @Test
     void create_shouldReturnEtudiant() throws Exception {
         Etudiant e = new Etudiant(null, "John", "Doe", "login");
 
         mockMvc.perform(post("/api/etudiants")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(e)))
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(e)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists());
     }
@@ -60,12 +71,11 @@ class EtudiantControllerIT {
     @Test
     void update_shouldReturnUpdatedEtudiant() throws Exception {
         Etudiant saved = repository.save(new Etudiant(null, "Old", "Name", "oldLogin"));
-
         Etudiant updated = new Etudiant(null, "New", "Name", "newLogin");
 
         mockMvc.perform(put("/api/etudiants/" + saved.getId())
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(updated)))
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(updated)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value("New"));
     }

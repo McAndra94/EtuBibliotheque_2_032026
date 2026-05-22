@@ -27,114 +27,114 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(GlobalExceptionHandler.class)
 class UserControllerTest {
 
-    private static final String URL = "/api/register";
+       private static final String URL = "/api/register";
 
-    @Autowired
-    private MockMvc mockMvc;
+       @Autowired
+       private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+       @Autowired
+       private ObjectMapper objectMapper;
 
-    @MockBean
-    private UserService userService;
+       @MockBean
+       private UserDtoMapper userDtoMapper;
 
-    @MockBean
-    private JwtService jwtService;
+       @MockBean
+       private UserService userService;
 
-    @MockBean
-    private UserDtoMapper userDtoMapper;
+       @MockBean
+       private JwtService jwtService;
 
-    // REGISTER TESTS
-    @Test
-    void registerUserWithoutRequiredData() throws Exception {
-        RegisterDTO registerDTO = new RegisterDTO();
+       // REGISTER TESTS
+       @Test
+       void registerUserWithoutRequiredData() throws Exception {
+              RegisterDTO registerDTO = new RegisterDTO();
 
-        mockMvc.perform(post(URL)
-                        .content(objectMapper.writeValueAsString(registerDTO))
-                        .contentType("application/json"))
-                .andExpect(status().isBadRequest());
-    }
+              mockMvc.perform(post(URL)
+                            .content(objectMapper.writeValueAsString(registerDTO))
+                            .contentType("application/json"))
+                            .andExpect(status().isBadRequest());
+       }
 
-    @Test
-    void registerAlreadyExistUser() throws Exception {
-        RegisterDTO registerDTO = new RegisterDTO();
-        registerDTO.setFirstName("John");
-        registerDTO.setLastName("Doe");
-        registerDTO.setLogin("login");
-        registerDTO.setPassword("password");
+       @Test
+       void registerAlreadyExistUser() throws Exception {
+              RegisterDTO registerDTO = new RegisterDTO();
+              registerDTO.setFirstName("John");
+              registerDTO.setLastName("Doe");
+              registerDTO.setLogin("login");
+              registerDTO.setPassword("password");
 
-        Mockito.when(userDtoMapper.toEntity(Mockito.any(RegisterDTO.class)))
-               .thenReturn(new User());
+              Mockito.when(userDtoMapper.toEntity(Mockito.any(RegisterDTO.class)))
+                            .thenReturn(new User());
 
-        Mockito.doThrow(new RuntimeException("User already exists"))
-               .when(userService).register(Mockito.any(User.class));
+              Mockito.doThrow(new RuntimeException("User already exists"))
+                            .when(userService).register(Mockito.any(User.class));
 
-        mockMvc.perform(post(URL)
-                        .content(objectMapper.writeValueAsString(registerDTO))
-                        .contentType("application/json"))
-                .andExpect(status().isBadRequest());
-    }
+              mockMvc.perform(post(URL)
+                            .content(objectMapper.writeValueAsString(registerDTO))
+                            .contentType("application/json"))
+                            .andExpect(status().isBadRequest());
+       }
 
-    @Test
-    void registerUserSuccessful() throws Exception {
-        RegisterDTO registerDTO = new RegisterDTO();
-        registerDTO.setFirstName("John");
-        registerDTO.setLastName("Doe");
-        registerDTO.setLogin("login");
-        registerDTO.setPassword("password");
+       @Test
+       void registerUserSuccessful() throws Exception {
+              RegisterDTO registerDTO = new RegisterDTO();
+              registerDTO.setFirstName("John");
+              registerDTO.setLastName("Doe");
+              registerDTO.setLogin("login");
+              registerDTO.setPassword("password");
 
-        Mockito.when(userDtoMapper.toEntity(Mockito.any(RegisterDTO.class)))
-               .thenReturn(new User());
+              Mockito.when(userDtoMapper.toEntity(Mockito.any(RegisterDTO.class)))
+                            .thenReturn(new User());
 
-        mockMvc.perform(post(URL)
-                        .content(objectMapper.writeValueAsString(registerDTO))
-                        .contentType("application/json"))
-                .andExpect(status().isCreated());
-    }
+              mockMvc.perform(post(URL)
+                            .content(objectMapper.writeValueAsString(registerDTO))
+                            .contentType("application/json"))
+                            .andExpect(status().isCreated());
+       }
 
-    // LOGIN TESTS
-    @Test
-    void loginSuccessful() throws Exception {
-    LoginRequestDTO dto = new LoginRequestDTO();
-    dto.setLogin("login");
-    dto.setPassword("password");
+       // LOGIN TESTS
+       @Test
+       void loginSuccessful() throws Exception {
+              LoginRequestDTO dto = new LoginRequestDTO();
+              dto.setLogin("login");
+              dto.setPassword("password");
 
-    Mockito.when(userService.login("login", "password"))
-           .thenReturn("TOKEN");
+              Mockito.when(userService.login("login", "password"))
+                            .thenReturn("TOKEN");
 
-    mockMvc.perform(post("/api/login")
-                    .contentType("application/json")
-                    .content(objectMapper.writeValueAsString(dto)))
-            .andExpect(status().isOk());
-}
+              mockMvc.perform(post("/api/login")
+                            .contentType("application/json")
+                            .content(objectMapper.writeValueAsString(dto)))
+                            .andExpect(status().isOk());
+       }
 
-@Test
-void loginWrongLogin_shouldReturn400() throws Exception {
-    LoginRequestDTO dto = new LoginRequestDTO();
-    dto.setLogin("wrong");
-    dto.setPassword("password");
+       @Test
+       void loginWrongLogin_shouldReturn400() throws Exception {
+              LoginRequestDTO dto = new LoginRequestDTO();
+              dto.setLogin("wrong");
+              dto.setPassword("password");
 
-    Mockito.when(userService.login("wrong", "password"))
-           .thenThrow(new RuntimeException("Invalid credentials"));
+              Mockito.when(userService.login("wrong", "password"))
+                            .thenThrow(new RuntimeException("Invalid credentials"));
 
-    mockMvc.perform(post("/api/login")
-                    .contentType("application/json")
-                    .content(objectMapper.writeValueAsString(dto)))
-            .andExpect(status().isBadRequest());
-}
+              mockMvc.perform(post("/api/login")
+                            .contentType("application/json")
+                            .content(objectMapper.writeValueAsString(dto)))
+                            .andExpect(status().isBadRequest());
+       }
 
-@Test
-void loginWrongPassword_shouldReturn400() throws Exception {
-    LoginRequestDTO dto = new LoginRequestDTO();
-    dto.setLogin("login");
-    dto.setPassword("wrong");
+       @Test
+       void loginWrongPassword_shouldReturn400() throws Exception {
+              LoginRequestDTO dto = new LoginRequestDTO();
+              dto.setLogin("login");
+              dto.setPassword("wrong");
 
-    Mockito.when(userService.login("login", "wrong"))
-           .thenThrow(new RuntimeException("Invalid credentials"));
+              Mockito.when(userService.login("login", "wrong"))
+                            .thenThrow(new RuntimeException("Invalid credentials"));
 
-    mockMvc.perform(post("/api/login")
-                    .contentType("application/json")
-                    .content(objectMapper.writeValueAsString(dto)))
-            .andExpect(status().isBadRequest());
-}
+              mockMvc.perform(post("/api/login")
+                            .contentType("application/json")
+                            .content(objectMapper.writeValueAsString(dto)))
+                            .andExpect(status().isBadRequest());
+       }
 }
