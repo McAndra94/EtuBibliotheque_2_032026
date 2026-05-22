@@ -4,7 +4,7 @@ EtuBibliotheque
    - Goal : minimum 80% coverage
    - Overall Coverage : **94%**
 
-   Testing Framework : JUnit & Mockito
+   Testing Framework : JUnit & Mockito <br>
    Coverage Tool : JaCoCo
 
 ![Backend Coverage](Back-end/results/jacoco-coverage.png)
@@ -13,7 +13,7 @@ EtuBibliotheque
    - Goal : minimum 80% coverage
    - Overall Coverage : **95.78%** (100% Branches)
 
-   Testing Framework : Jest
+   Testing Framework : Jest <br>
    Coverage Tool : Jest (Built-in)
 
 ![Frontend Coverage](Front-end/results/jest-coverage.png)
@@ -33,7 +33,7 @@ Tests included :
    - Goal : minimum 80% coverage
    - Overall Coverage : **94.56%**
 
-   Testing Tool : Cypress
+   Testing Tool : Cypress <br>
    Coverage Tool : Istanbul & Babel tracking (via `ngx-build-plus`)
 
 ![Cypress E2E Coverage](Front-end/cypress-coverage.png)
