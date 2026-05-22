@@ -44,7 +44,6 @@ export class LoginComponent {
 
     const login = this.loginForm.get('login')?.value;
     const password = this.loginForm.get('password')?.value;
-    // Data in backend
     this.authService.login(login, password).subscribe({
       next: (token: string) => {
         this.loading = false;

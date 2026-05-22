@@ -55,7 +55,7 @@ class EtudiantServiceTest {
         verify(repository).findAll();
     }
 
-    // FIND BY ID
+    // FIND ONE (BY ID)
     @Test
     void findById_shouldReturnEtudiant() {
         Etudiant e = new Etudiant(1L, "John", "Doe", "login");

@@ -46,8 +46,7 @@ class RestExceptionHandlerTest {
 
     @Test
     void handleException_shouldReturnInternalServerError() {
-        // Cette méthode n'utilise pas getErrorDetails, donc pas besoin de configurer le
-        // mock
+
         RuntimeException ex = new RuntimeException("Generic error");
 
         ResponseEntity<Object> response = handler.handleException(ex, request);

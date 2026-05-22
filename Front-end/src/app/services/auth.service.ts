@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,9 @@ export class AuthService {
         map((resp: string) => {
           if (!resp) throw new Error('Empty login response');
           return resp;
+        }),
+        catchError((error) => {
+          return throwError(() => new Error(error.message || 'Login failed'));
         }),
       );
   }

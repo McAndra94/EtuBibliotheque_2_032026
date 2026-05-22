@@ -18,7 +18,6 @@ export class RegisterComponent implements OnInit {
   private userService = inject(UserService);
   private formBuilder = inject(FormBuilder);
   private destroyRef = inject(DestroyRef);
-  //Add router here
   private router = inject(Router);
   registerForm: FormGroup = new FormGroup({});
   submitted: boolean = false;
@@ -38,9 +37,13 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
+    console.log('Form valid?', this.registerForm.valid);
+    console.log('Form values:', this.registerForm.value);
     if (this.registerForm.invalid) {
+      console.log('Form invalid, stopping submission.');
       return;
     }
+    console.log('Form valid! Calling userService.register...');
     const registerUser: Register = {
       firstName: this.registerForm.get('firstName')?.value,
       lastName: this.registerForm.get('lastName')?.value,
@@ -51,8 +54,7 @@ export class RegisterComponent implements OnInit {
       .register(registerUser)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        alert('SUCCESS!! :-)');
-        // TODO : router l'utilisateur vers la page de login
+        alert('SUCCESS!!');
         this.router.navigate(['/login']);
       });
   }
